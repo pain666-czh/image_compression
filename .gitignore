@@ -1,0 +1,11 @@
+# IDE / 工具产物
+.trae-html-share-packages/
+.screenshots/
+.trae/
+
+# 本地测试产物
+_test/
+
+# 系统文件
+Thumbs.db
+Desktop.ini
