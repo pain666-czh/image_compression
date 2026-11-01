@@ -47,6 +47,7 @@
     uploadMeta.hidden = false;
     dropzone.classList.add('has-image');
     $('#result-section').hidden = true;
+    $('#result-placeholder').hidden = false;
   }
 
   dropzone.addEventListener('click', () => fileInput.click());
@@ -222,6 +223,7 @@
     download.href = state.resultUrl;
     download.download = `photo_${spec.label}_${limitKB}KB.jpg`;
 
+    $('#result-placeholder').hidden = true;
     $('#result-section').hidden = false;
     $('#result-section').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }

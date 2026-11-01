@@ -46,6 +46,47 @@ body {
   color: var(--text-2);
 }
 
+/* ---------- 双栏布局：左栏参数+上传（桌面端固定），右栏结果 ---------- */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.col-result {
+  min-width: 0;
+}
+
+.placeholder {
+  border-style: dashed;
+  padding: 56px 16px;
+  text-align: center;
+  color: var(--text-2);
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.placeholder .ph-sub {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+@media (min-width: 900px) {
+  .container {
+    max-width: 1080px;
+  }
+
+  .layout {
+    grid-template-columns: 400px minmax(0, 1fr);
+  }
+
+  .col-settings {
+    position: sticky;
+    top: 16px;
+  }
+}
+
 /* ---------- 卡片 ---------- */
 .card {
   background: var(--card);
@@ -229,7 +270,7 @@ body {
 }
 
 #compress-btn {
-  margin-top: 8px;
+  margin-top: 12px;
 }
 
 a.primary-btn {

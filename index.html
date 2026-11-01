@@ -13,71 +13,83 @@
       <p>纯浏览器本地处理 · 图片不会上传服务器</p>
     </header>
 
-    <!-- 1. 上传区 -->
-    <section class="card">
-      <h2 class="card-title">1 · 上传图片</h2>
-      <div id="dropzone" class="dropzone" role="button" aria-label="上传图片">
-        <input type="file" id="file-input" accept="image/*" hidden>
-        <img id="upload-preview" alt="上传预览">
-        <div class="dz-hint">
-          <span class="dz-icon" aria-hidden="true">＋</span>
-          <p class="dz-main">点击选择、拖拽图片到此处，或 Ctrl + V 粘贴</p>
-          <p class="dz-sub">支持 JPG / PNG / WebP / BMP</p>
-        </div>
+    <div class="layout">
+      <!-- 左栏：参数 + 上传，桌面端固定可见，可随时调整重新压缩 -->
+      <div class="col-settings">
+        <!-- 1. 参数区 -->
+        <section class="card">
+          <h2 class="card-title">1 · 选择参数</h2>
+
+          <div class="param-group">
+            <p class="param-label">图像尺寸</p>
+            <div id="spec-group" class="option-row"></div>
+            <div id="custom-spec-box" class="custom-box" hidden>
+              宽 <input type="number" id="custom-w" min="16" max="10000" placeholder="295">
+              <span class="custom-x">×</span>
+              高 <input type="number" id="custom-h" min="16" max="10000" placeholder="413">
+              <span class="custom-unit">px</span>
+            </div>
+          </div>
+
+          <div class="param-group">
+            <p class="param-label">目标大小上限</p>
+            <div id="size-group" class="option-row"></div>
+            <div id="custom-size-box" class="custom-box" hidden>
+              <input type="number" id="custom-kb" min="5" max="10240" placeholder="64">
+              <span class="custom-unit">KB</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- 2. 上传区 -->
+        <section class="card">
+          <h2 class="card-title">2 · 上传图片</h2>
+          <div id="dropzone" class="dropzone" role="button" aria-label="上传图片">
+            <input type="file" id="file-input" accept="image/*" hidden>
+            <img id="upload-preview" alt="上传预览">
+            <div class="dz-hint">
+              <span class="dz-icon" aria-hidden="true">＋</span>
+              <p class="dz-main">点击选择、拖拽图片到此处，或 Ctrl + V 粘贴</p>
+              <p class="dz-sub">支持 JPG / PNG / WebP / BMP</p>
+            </div>
+          </div>
+          <p id="upload-meta" class="upload-meta" hidden></p>
+          <button id="compress-btn" class="primary-btn" type="button">开始压缩</button>
+        </section>
       </div>
-      <p id="upload-meta" class="upload-meta" hidden></p>
-    </section>
 
-    <!-- 2. 参数区 -->
-    <section class="card">
-      <h2 class="card-title">2 · 选择参数</h2>
-
-      <div class="param-group">
-        <p class="param-label">图像尺寸</p>
-        <div id="spec-group" class="option-row"></div>
-        <div id="custom-spec-box" class="custom-box" hidden>
-          宽 <input type="number" id="custom-w" min="16" max="10000" placeholder="295">
-          <span class="custom-x">×</span>
-          高 <input type="number" id="custom-h" min="16" max="10000" placeholder="413">
-          <span class="custom-unit">px</span>
+      <!-- 右栏：结果 -->
+      <div class="col-result">
+        <div id="result-placeholder" class="card placeholder">
+          <p>设置好尺寸与大小，上传图片并点击「开始压缩」</p>
+          <p class="ph-sub">压缩结果将显示在这里，左侧参数可随时调整后重新压缩</p>
         </div>
+
+        <!-- 3. 结果区 -->
+        <section class="card" id="result-section" hidden>
+          <h2 class="card-title">3 · 压缩结果 <span id="ratio-badge" class="badge"></span></h2>
+          <div class="compare-grid">
+            <div class="compare-item">
+              <p class="compare-tag">原图</p>
+              <img id="orig-img" class="compare-img" alt="原图">
+              <p class="compare-meta">
+                <span id="orig-dims"></span><br>
+                <span id="orig-size"></span>
+              </p>
+            </div>
+            <div class="compare-item highlight">
+              <p class="compare-tag">压缩后</p>
+              <img id="result-img" class="compare-img" alt="压缩后">
+              <p class="compare-meta">
+                <span id="result-dims"></span><br>
+                <span id="result-size"></span> · <span id="result-quality"></span>
+              </p>
+            </div>
+          </div>
+          <a id="download-btn" class="primary-btn download" href="#" download>下载图片</a>
+        </section>
       </div>
-
-      <div class="param-group">
-        <p class="param-label">目标大小上限</p>
-        <div id="size-group" class="option-row"></div>
-        <div id="custom-size-box" class="custom-box" hidden>
-          <input type="number" id="custom-kb" min="5" max="10240" placeholder="64">
-          <span class="custom-unit">KB</span>
-        </div>
-      </div>
-
-      <button id="compress-btn" class="primary-btn" type="button">开始压缩</button>
-    </section>
-
-    <!-- 3. 结果区 -->
-    <section class="card" id="result-section" hidden>
-      <h2 class="card-title">3 · 压缩结果 <span id="ratio-badge" class="badge"></span></h2>
-      <div class="compare-grid">
-        <div class="compare-item">
-          <p class="compare-tag">原图</p>
-          <img id="orig-img" class="compare-img" alt="原图">
-          <p class="compare-meta">
-            <span id="orig-dims"></span><br>
-            <span id="orig-size"></span>
-          </p>
-        </div>
-        <div class="compare-item highlight">
-          <p class="compare-tag">压缩后</p>
-          <img id="result-img" class="compare-img" alt="压缩后">
-          <p class="compare-meta">
-            <span id="result-dims"></span><br>
-            <span id="result-size"></span> · <span id="result-quality"></span>
-          </p>
-        </div>
-      </div>
-      <a id="download-btn" class="primary-btn download" href="#" download>下载图片</a>
-    </section>
+    </div>
   </main>
 
   <div id="toast" class="toast" role="status"></div>
